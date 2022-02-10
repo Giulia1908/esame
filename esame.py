@@ -4,15 +4,15 @@ class ExamException(Exception):
 class CSVTimeSeriesFile:
     
     def __init__(self, name):
-        self.name = name
+        self.name=name
 
         # Provo ad aprire e leggere una riga del file
-        self.can_read = True
+        self.can_read=True
         try:
-            my_file = open(self.name, 'r')
+            my_file=open(self.name, 'r')
             my_file.readline()
         except:        
-            self.can_read = False
+            self.can_read=False
 
     
     def get_data(self):
@@ -23,14 +23,14 @@ class CSVTimeSeriesFile:
 
         else:
             #creo una lista di liste -> ogni sottolista sarà: ['anno-mese', numpasseggeri]
-            listaliste = []       
+            listaliste=[]       
             my_file= open(self.name, 'r')   #apro e leggo il file
             anno_prima=None     #inizializzo l'anno e il mese prima a None
             mese_prima=None
 
             for line in my_file:    #scorro il file
                 elements=line.split(',')    # split() restituisce un array di sottostringhe risultanti dalla divisione della stringa originale 
-                elements[-1] = elements[-1].strip()     #con la funzione strip rimuovo il carattere newline(\n)da tutte le linee e gli spazi bianchi all'inizio e alla fine della striga
+                elements[-1]=elements[-1].strip()     #con la funzione strip rimuovo il carattere newline(\n)da tutte le linee e gli spazi bianchi all'inizio e alla fine della striga
                 #-----------------------------------------------------------------------
                 try:
                     elements[1]=int(elements[1]) #il mese può essere convertito 
@@ -110,7 +110,7 @@ def compute_avg_monthly_difference(time_series, first_year, last_year):
         raise ExamException('first_year  è maggiore o uguale di last_year')
     
 
-    lista = fill(time_series)      #inizializzo una lista che contiene tutti di dati 
+    lista=fill(time_series)      #inizializzo una lista che contiene tutti di dati 
     #------------------------------------------------------------------------------------------------------------
     #stampo anno : [numero passeggeri per ogi mese]
     #questa parte non influisce sul calcolo della media, potrebbe essere tranquillamente cancellata
@@ -125,7 +125,7 @@ def compute_avg_monthly_difference(time_series, first_year, last_year):
     
     b=time_series[0]     #b=['anno-mese']
     a=b[0].split('-')    #a=['anno']
-    first_y = int(a[0])   #first_y=anno
+    first_y=int(a[0])   #first_y=anno
     
     differenza=primo-first_y     
 
@@ -136,8 +136,8 @@ def compute_avg_monthly_difference(time_series, first_year, last_year):
         c=False
         x=ultimo-primo
         for j in range(ultimo-primo):   
-            if lista[differenza*12+(j*12)+i] == None:    #se l'elemento del mese è nullo...
-                x = x-1 
+            if lista[differenza*12+(j*12)+i]==None:    #se l'elemento del mese è nullo...
+                x=x-1 
 
             elif  lista[differenza*12+(j*12)+12+i]==None:     #se l'elemento dello stesso mese ma dell'anno successivo è nullo...
                 x=x-1
@@ -146,7 +146,7 @@ def compute_avg_monthly_difference(time_series, first_year, last_year):
                 #calcollo la sommatoria delle differenze
                 somma=somma+(lista[differenza*12+(j*12)+12+i]-lista[differenza*12+(j*12)+i])     #esempio: (gennaio_1950-gennaio_1949)+...+...
                 c=True
-        if c == True:
+        if c==True:
             med=somma/x
             media.append(med)
         else:
@@ -160,58 +160,58 @@ def fill (lista):
     if len(lista)==0:
         raise ExamException('il file è vuoto')
 
-    a = lista[-1]     #prendo l'ultimo elemento della lista
-    b = a[0].split('-')  #b=['ultimo_anno-ultimo_mese']
-    last_y = int(b[0])    #last_y =ultimo_anno
-    last_m = int(b[1])    #last_m =ultimo_mese
+    a=lista[-1]     #prendo l'ultimo elemento della lista
+    b=a[0].split('-')  #b=['ultimo_anno-ultimo_mese']
+    last_y=int(b[0])    #last_y =ultimo_anno
+    last_m=int(b[1])    #last_m =ultimo_mese
 
-    ip_anno = None    #anno precedente
-    ip_mese = None    #mese precedente
+    ip_anno=None    #anno precedente
+    ip_mese=None    #mese precedente
 
-    result = []  #creo una lista vuota che conterrà tutti dati e None dove essi sono mancanti
+    result=[]  #creo una lista vuota che conterrà tutti dati e None dove essi sono mancanti
 
-    counter = True 
+    counter=True 
     i=0
     k=True
 
-    while counter == True:
+    while counter==True:
         try:    #provo a dividere la prima riga 
-            line = lista[i]
-            data = line[0].split('-')
-            anno = int(data[0])
-            mese = int(data[1])
+            line=lista[i]
+            data=line[0].split('-')
+            anno=int(data[0])
+            mese=int(data[1])
         except:
             pass   #se non è possibile passo alla successiva
 
-        if ip_anno == None:    #caso base
-            ip_anno = anno     #la variabile è uguale al primo anno
-            ip_mese = 1        # // è uguale al primo mese (posizione di gennaio)
+        if ip_anno==None:    #caso base
+            ip_anno=anno     #la variabile è uguale al primo anno
+            ip_mese=1        # // è uguale al primo mese (posizione di gennaio)
         else:            
-            if last_y == ip_anno and ip_mese == 12:   #caso in cui arrivo a dicembre dell'ultimo anno 
-                if k == True:
+            if last_y==ip_anno and ip_mese==12:   #caso in cui arrivo a dicembre dell'ultimo anno 
+                if k==True:
                     result.append(line[1])
                 else:
                     result.append(None)     #se l'ultimo elemento dell'ultimo anno manca, metto None
-                counter = False 
+                counter=False 
 
-            elif last_y == ip_anno and last_m <= ip_mese:    #caso in cui  mi trovo nell'ultimo anno e a un mese minore o uguale all'ultimo
-                if ip_mese == mese and ip_anno == anno:     
+            elif last_y==ip_anno and last_m<=ip_mese:    #caso in cui  mi trovo nell'ultimo anno e a un mese minore o uguale all'ultimo
+                if ip_mese==mese and ip_anno==anno:     
                     result.append(line[1])
                 else:
                     result.append(None)     
-                k = False  
+                k=False  
 
-            elif ip_mese == mese and ip_anno == anno:
+            elif ip_mese==mese and ip_anno==anno:
                 result.append(line[1])
-                i = i + 1
+                i=i+1
 
             else:
                 result.append(None)
 
-            ip_mese = ip_mese + 1 #passo alla posizione del mese successivo
+            ip_mese=ip_mese+1 #passo alla posizione del mese successivo
 
-            if ip_mese == 13:  
-                ip_mese = 1      #torno alla posizione del primo mese(gennaio)
-                ip_anno = ip_anno + 1   #passo all'anno successivo
+            if ip_mese==13:  
+                ip_mese=1      #torno alla posizione del primo mese(gennaio)
+                ip_anno=ip_anno+1   #passo all'anno successivo
 
     return result
