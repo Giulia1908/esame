@@ -33,7 +33,7 @@ class CSVTimeSeriesFile:
                 elements[-1]=elements[-1].strip()     #con la funzione strip rimuovo il carattere newline(\n)da tutte le linee e gli spazi bianchi all'inizio e alla fine della striga
                 #-----------------------------------------------------------------------
                 try:
-                    elements[1]=int(elements[1]) #il mese può essere convertito 
+                    elements[1]=int(elements[1]) #il numero di passeggeri può essere convertito 
                     m_a=elements[0].split('-')
                     anno=int(m_a[0])
                     mese=int(m_a[1])                  
@@ -73,6 +73,7 @@ class CSVTimeSeriesFile:
 
 
 def compute_avg_monthly_difference(time_series, first_year, last_year):
+
     #controllo che first_year e last_year siano di tipo striga
     if isinstance(first_year, str)==False:
        raise ExamException('il primo anno non è di tipo stringa')
@@ -175,7 +176,7 @@ def fill (lista):
     k=True
 
     while counter==True:
-        try:    #provo a dividere la prima riga 
+        try:    #provo ad agire sulla prima riga 
             line=lista[i]
             data=line[0].split('-')
             anno=int(data[0])
@@ -185,7 +186,7 @@ def fill (lista):
 
         if ip_anno==None:    #caso base
             ip_anno=anno     #la variabile è uguale al primo anno
-            ip_mese=1        # // è uguale al primo mese (posizione di gennaio)
+            ip_mese=1        #    //       è uguale al primo mese (posizione di gennaio)
         else:            
             if last_y==ip_anno and ip_mese==12:   #caso in cui arrivo a dicembre dell'ultimo anno 
                 if k==True:
@@ -215,3 +216,15 @@ def fill (lista):
                 ip_anno=ip_anno+1   #passo all'anno successivo
 
     return result
+
+"""
+#corpo del programma
+
+time_series_file = CSVTimeSeriesFile(name='data.csv')
+time_series = time_series_file.get_data()
+
+#print(time_series)
+#print(fill(time_series))
+numeri=compute_avg_monthly_difference(time_series, "1949", "1951")
+print('la variazione media nel numero di passeggeri per ogni mese vale:',numeri)
+"""
